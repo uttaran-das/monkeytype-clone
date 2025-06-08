@@ -1,0 +1,38 @@
+body {
+  background-color: #323437;
+  color: #d1d0c5;
+  font-family: 'Roboto Mono', 'Courier New', Courier, monospace;
+}
+
+.app {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  font-size: 1.5rem;
+}
+
+.words-container {
+  max-width: 900px;
+  line-height: 2;
+  position: relative; /* Required for cursor positioning */
+}
+
+.cursor {
+  display: inline-block;
+  width: 2px;
+  height: 1.5rem;
+  background-color: #e2b714;
+  margin-left: -2px;
+  animation: blink 1s infinite;
+  vertical-align: middle;
+}
+
+@keyframes blink {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}
