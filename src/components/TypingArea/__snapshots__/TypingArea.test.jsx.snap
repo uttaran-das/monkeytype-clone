@@ -1,0 +1,91 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`TypingArea component > renders correctly and matches snapshot 1`] = `
+<div>
+  <div
+    class="words-container"
+  >
+    <span>
+      <span
+        class="cursor"
+        data-testid="cursor"
+      />
+      <span
+        class="character "
+      >
+        T
+      </span>
+    </span>
+    <span>
+      <span
+        class="character "
+      >
+        e
+      </span>
+    </span>
+    <span>
+      <span
+        class="character "
+      >
+        s
+      </span>
+    </span>
+    <span>
+      <span
+        class="character "
+      >
+        t
+      </span>
+    </span>
+    <span>
+      <span
+        class="character "
+      >
+         
+      </span>
+    </span>
+    <span>
+      <span
+        class="character "
+      >
+        p
+      </span>
+    </span>
+    <span>
+      <span
+        class="character "
+      >
+        r
+      </span>
+    </span>
+    <span>
+      <span
+        class="character "
+      >
+        o
+      </span>
+    </span>
+    <span>
+      <span
+        class="character "
+      >
+        m
+      </span>
+    </span>
+    <span>
+      <span
+        class="character "
+      >
+        p
+      </span>
+    </span>
+    <span>
+      <span
+        class="character "
+      >
+        t
+      </span>
+    </span>
+  </div>
+</div>
+`;

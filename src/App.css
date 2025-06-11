@@ -15,7 +15,9 @@ body {
 .words-container {
   max-width: 900px;
   line-height: 2;
-  position: relative; /* Required for cursor positioning */
+  position: relative;
+  /* Required for cursor positioning */
+  user-select: none;
 }
 
 .cursor {
@@ -29,10 +31,27 @@ body {
 }
 
 @keyframes blink {
-  0%, 100% {
+
+  0%,
+  100% {
     opacity: 1;
   }
+
   50% {
     opacity: 0;
   }
+}
+
+.character {
+  display: inline-block;
+  /* Ensures consistent box model for each char */
+}
+
+.correct {
+  color: #ffffff;
+}
+
+.incorrect {
+  color: #ca4754;
+  text-decoration: underline;
 }
