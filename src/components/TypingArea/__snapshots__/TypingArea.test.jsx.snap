@@ -4,6 +4,7 @@ exports[`TypingArea component > renders correctly and matches snapshot 1`] = `
 <div>
   <div
     class="words-container"
+    data-testid="typing-area"
   >
     <span>
       <span

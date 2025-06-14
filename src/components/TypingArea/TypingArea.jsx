@@ -7,7 +7,7 @@ const TypingArea = ({ prompt, userInput }) => {
     const characters = prompt.split('');
 
     return (
-        <div className="words-container">
+        <div className="words-container" data-testid="typing-area">
             {characters.map((char, index) => {
                 const isTyped = index < userInput.length
                 let state

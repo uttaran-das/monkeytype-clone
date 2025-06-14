@@ -1,38 +1,64 @@
 // src/App.test.jsx
-import { render, screen } from '@testing-library/react';
+import { cleanup, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { beforeEach, describe, expect, it } from 'vitest';
+import { describe, it, expect, vi, afterEach } from 'vitest';
 import App from './App';
 
-// Mock the child component to isolate the App component's logic
-vi.mock('./components/TypingArea/TypingArea', () => ({
-    default: ({ prompt, userInput }) => (
-        <div data-testid="typing-area">
-            <p>{prompt}</p>
-            <p data-testid="user-input-display">{userInput}</p>
-        </div>
-    ),
-}));
+describe('App component - Full Test Flow', () => {
+  const prompt = "Time was a wave, almost cruel in its relentlessness.";
 
-describe('App component - State Management', () => {
-    beforeEach(() => {
-        render(<App />);
-    });
+  beforeEach(() => {
+    // This ensures the spy is fresh and active before each test
+    vi.spyOn(Date, 'now');
+  });
 
-    it('updates the userInput state on key press', async () => {
-        const user = userEvent.setup();
-        await user.keyboard('abc');
+  afterEach(() => {
+    cleanup();
+    vi.restoreAllMocks();
+  });
 
-        const userInputDisplay = screen.getByTestId('user-input-display');
-        expect(userInputDisplay).toHaveTextContent('abc');
-    });
+  it('completes a perfect test run and displays correct stats', async () => {
+    const user = userEvent.setup();
+    render(<App />);
 
-    it('handles backspace correctly by updating state', async () => {
-        const user = userEvent.setup();
-        await user.keyboard('abc');
-        await user.keyboard('{backspace}');
+    // --- THIS IS THE FIX ---
+    // STEP 1: Set the time for the START of the test.
+    vi.mocked(Date.now).mockReturnValue(10000);
+    // STEP 2: Perform the action that calls setStartTime.
+    // We only need to type one character to start the timer.
+    await user.keyboard(prompt[0]);
 
-        const userInputDisplay = screen.getByTestId('user-input-display');
-        expect(userInputDisplay).toHaveTextContent('ab');
-    });
+    // STEP 3: Set the time for the END of the test.
+    vi.mocked(Date.now).mockReturnValue(22000);
+    // STEP 4: Perform the action that calls setEndTime.
+    await user.keyboard(prompt.slice(1));
+    // --- END OF FIX ---
+
+    // Now the assertions will use the explicitly mocked start and end times.
+    expect(screen.getByTestId('results-card')).toBeInTheDocument();
+    
+    expect(screen.getByTestId('wpm-value')).toHaveTextContent('52');
+    expect(screen.getByTestId('raw-wpm-value')).toHaveTextContent('52');
+    expect(screen.getByTestId('accuracy-value')).toHaveTextContent('100%');
+  });
+
+  it('resets the test when "Try Again" is clicked', async () => {
+    const user = userEvent.setup();
+    render(<App />);
+    
+    await user.keyboard(prompt);
+    
+    const resetButton = screen.getByRole('button', { name: /try again/i });
+    await user.click(resetButton);
+
+    // --- FIX IS HERE ---
+    // Instead of getByText, find the container and check its full text content.
+    const typingArea = screen.getByTestId('typing-area');
+    expect(typingArea).toBeInTheDocument();
+    
+    const normalizedTextContent = typingArea.textContent.replace(/\s/g, ' ');
+    expect(normalizedTextContent).toBe(prompt);
+    
+    expect(screen.queryByTestId('results-card')).not.toBeInTheDocument();
+  });
 });
